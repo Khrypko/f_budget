@@ -32,6 +32,7 @@ public class PageSecurityConfig extends WebSecurityConfigurerAdapter{
                     .loginPage("/login")
                     .failureUrl("/login?error")
                     .usernameParameter("name")
+                    .defaultSuccessUrl("/cabinet")
                     .permitAll()
                     .and()
                 .logout()
