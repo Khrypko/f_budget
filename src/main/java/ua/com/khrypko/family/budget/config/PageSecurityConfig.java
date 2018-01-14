@@ -25,9 +25,8 @@ public class PageSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().
                 authorizeRequests()
-                    .antMatchers("/", "/home", "/about").permitAll()
                     .antMatchers("/cabinet/**").hasAuthority("USER")
-                    .anyRequest().fullyAuthenticated()
+                    .anyRequest().permitAll()
                     .and()
                 .formLogin()
                     .loginPage("/login")

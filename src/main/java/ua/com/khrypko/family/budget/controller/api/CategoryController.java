@@ -16,18 +16,19 @@ import java.util.List;
  * Created by maks on 19.11.17.
  */
 @RestController
+@RequestMapping("/api/category")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping(value = "/api/category", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<CategoryDTO> getUsersCategories(Authentication authentication){
         SecurityUser currentUser = (SecurityUser) authentication.getPrincipal();
         return categoryService.getCategoriesDTOsByFamilyId(currentUser.getId());
     }
 
-    @RequestMapping(name = "/api/category", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity saveCategory(@RequestBody CategoryDTO categoryDTO){
         Category category = categoryService.createCategory(categoryDTO);
         return new ResponseEntity(categoryService.createDTO(category), HttpStatus.OK);

@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport;
 /**
  * Created by Ира on 22.08.2017.
  */
-@RestController
+//@RestController
 public class TestController {
 
     @Autowired
