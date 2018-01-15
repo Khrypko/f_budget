@@ -14,8 +14,8 @@
     <title>Регистрация</title>
 
     <!-- Icons -->
-    <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="node_modules/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/simple-line-icons.css" rel="stylesheet">
 
     <!-- Main styles for this application -->
     <link href="css/style.css" rel="stylesheet">
@@ -30,43 +30,36 @@
         <div class="col-md-6">
             <div class="card mx-4">
                 <div class="card-body p-4">
-                    <h1>Register</h1>
-                    <p class="text-muted">Создайте свой аккаунт</p>
-                    <div class="input-group mb-3">
-                        <span class="input-group-addon"><i class="icon-user"></i></span>
-                        <input type="text" class="form-control" placeholder="Имя пользователя">
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <span class="input-group-addon">@</span>
-                        <input type="text" class="form-control" placeholder="Имейл">
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <span class="input-group-addon"><i class="icon-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="Пароль">
-                    </div>
-
-                    <div class="input-group mb-4">
-                        <span class="input-group-addon"><i class="icon-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="Повторите пароль">
-                    </div>
-
-                    <button type="button" class="btn btn-block btn-success">Создать аккаунт</button>
-                </div>
-                <div class="card-footer p-4">
-                    <div class="row">
-                        <div class="col-6">
-                            <button class="btn btn-block btn-facebook" type="button">
-                                <span>facebook</span>
-                            </button>
+                    <h1>Регистрация</h1>
+                    <form>
+                        <p class="text-muted">Создайте свой аккаунт</p>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon"><i class="icon-user"></i></span>
+                            <input type="text" name="name" class="form-control" placeholder="Имя">
                         </div>
-                        <div class="col-6">
-                            <button class="btn btn-block btn-twitter" type="button">
-                                <span>twitter</span>
-                            </button>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon"><i class="icon-user"></i></span>
+                            <input type="text" name="surname" class="form-control" placeholder="Фамилия">
                         </div>
-                    </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">@</span>
+                            <input type="text" name="email" class="form-control" placeholder="Имейл">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon"><i class="icon-lock"></i></span>
+                            <input type="password" name="password" class="form-control" placeholder="Пароль">
+                        </div>
+
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon"><i class="icon-lock"></i></span>
+                            <input type="password" name="repeatpassword" class="form-control" placeholder="Повторите пароль">
+                        </div>
+
+                        <button type="button" class="btn btn-block btn-success">Создать аккаунт</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -74,9 +67,9 @@
 </div>
 
 <!-- Bootstrap and necessary plugins -->
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
-<script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
-<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>

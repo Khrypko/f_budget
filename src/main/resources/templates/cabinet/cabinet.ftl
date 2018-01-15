@@ -57,8 +57,8 @@
     <title>CoreUI - Open Source Bootstrap Admin Template</title>
 
     <!-- Icons -->
-    <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="node_modules/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/simple-line-icons.css" rel="stylesheet">
 
     <!-- Main styles for this application -->
     <link href="css/style.css" rel="stylesheet">
@@ -111,7 +111,7 @@
         <nav class="sidebar-nav">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html"><i class="icon-speedometer"></i> Dashboard <span class="badge badge-primary">NEW</span></a>
+                    <a class="nav-link" href="index.html"><i class="icon-speedometer"></i> Главная</a>
                 </li>
 
             </ul>
@@ -132,21 +132,17 @@
 
 <footer class="app-footer">
     <span><a href="http://coreui.io">CoreUI</a> © 2017 creativeLabs.</span>
-    <span class="ml-auto">Powered by <a href="http://coreui.io">CoreUI</a></span>
+    <span class="ml-auto">Powered by Maks i Danik</span>
 </footer>
 
 <!-- Bootstrap and necessary plugins -->
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
-<script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
-<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script src="node_modules/pace-progress/pace.min.js"></script>
-
 <!-- CoreUI main scripts -->
-
 <script src="js/app.js"></script>
-
 <!-- Plugins and scripts required by this views -->
-
 <!-- Custom scripts required by this view -->
 <script src="js/views/main.js"></script>
 

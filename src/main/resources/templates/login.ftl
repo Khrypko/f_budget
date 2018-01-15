@@ -6,16 +6,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="CoreUI Bootstrap 4 Admin Template">
-    <meta name="author" content="Lukasz Holeczek">
-    <meta name="keyword" content="CoreUI Bootstrap 4 Admin Template">
     <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
 
     <title>Логин</title>
 
     <!-- Icons -->
-    <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="node_modules/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/simple-line-icons.css" rel="stylesheet">
 
     <!-- Main styles for this application -->
     <link href="css/style.css" rel="stylesheet">
@@ -32,6 +29,9 @@
                 <div class="card p-4">
                     <form action="/login" method="post">
                         <div class="card-body">
+                            <#if error.isPresent()>
+                                <div class="alert alert-danger">Неверный логин или пароль!</div>
+                            </#if>
                             <h1>Войти</h1>
                             <p class="text-muted">Залогинитесь в свой аккаунт</p>
                             <div class="input-group mb-3">
@@ -66,13 +66,11 @@
         </div>
     </div>
 </div>
-<#if error.isPresent()>
-<p>Неправильний логін або пароль!</p>
-</#if>
+
 <!-- Bootstrap and necessary plugins -->
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
-<script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
-<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>
