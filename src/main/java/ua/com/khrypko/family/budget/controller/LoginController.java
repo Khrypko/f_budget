@@ -19,4 +19,9 @@ public class LoginController {
         return new ModelAndView("login", "error", error);
     }
 
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public ModelAndView getRegistrationPage(@RequestParam Optional<String> error) {
+        return new ModelAndView("registration", "error", error);
+    }
+
 }

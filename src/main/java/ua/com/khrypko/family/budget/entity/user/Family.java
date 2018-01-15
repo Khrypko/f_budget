@@ -15,7 +15,8 @@ public class Family {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    private long id;
+
     private String name;
 
     @OneToMany
@@ -27,11 +28,14 @@ public class Family {
     @OneToMany
     private Set<Expense> familyExpenses;
 
-    public int getId() {
+    @Column(name = "uniqueId")
+    private String uniqueUrl;
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -77,5 +81,13 @@ public class Family {
 
     public void setFamilyExpenses(Set<Expense> familyExpenses) {
         this.familyExpenses = familyExpenses;
+    }
+
+    public String getUniqueUrl() {
+        return uniqueUrl;
+    }
+
+    public void setUniqueUrl(String uniqueUrl) {
+        this.uniqueUrl = uniqueUrl;
     }
 }

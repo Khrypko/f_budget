@@ -1,23 +1,22 @@
-package ua.com.khrypko.family.budget.dto;
+package ua.com.khrypko.family.budget.dto.user;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by maks on 19.11.17.
  */
 public class FamilyDTO {
 
-    private int id;
+    private long id;
     private String name;
 
     private List<UserDTO> users;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

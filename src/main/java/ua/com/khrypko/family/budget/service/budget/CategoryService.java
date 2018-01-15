@@ -14,8 +14,8 @@ public interface CategoryService {
     public List<Category> getAllCategories();
     public List<Category> getCategoryByCriteria(CategoryDTO example);
 
-    public List<Category> getCategoriesByFamilyId(int userId);
-    public List<CategoryDTO> getCategoriesDTOsByFamilyId(int userId);
+    public List<Category> getCategoriesByFamilyId(long userId);
+    public List<CategoryDTO> getCategoriesDTOsByFamilyId(long userId);
 
     public CategoryDTO getCategoryDTO(long id);
     public List<CategoryDTO> getAllCategoriesDTO();

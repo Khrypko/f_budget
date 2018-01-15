@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    public List<Category> getCategoriesByFamiliesId(int familyId);
+    public List<Category> getCategoriesByFamiliesId(long familyId);
 
 }

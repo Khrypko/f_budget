@@ -15,7 +15,7 @@ public class SecurityUser extends User {
         this.user = user;
     }
 
-    public Integer getId() {
+    public long getId() {
         return user.getId();
     }
 

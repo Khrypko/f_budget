@@ -10,7 +10,7 @@ public class ExpenseDTO {
     private String comment;
     private boolean active;
     private long categoryId;
-    private int familyId;
+    private long familyId;
 
     public long getId() {
         return id;
@@ -52,11 +52,11 @@ public class ExpenseDTO {
         this.categoryId = categoryId;
     }
 
-    public int getFamilyId() {
+    public long getFamilyId() {
         return familyId;
     }
 
-    public void setFamilyId(int familyId) {
+    public void setFamilyId(long familyId) {
         this.familyId = familyId;
     }
 }

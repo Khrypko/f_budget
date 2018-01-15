@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.khrypko.family.budget.exception.NoSuchEntity;
 import ua.com.khrypko.family.budget.repository.FamilyRepository;
-import ua.com.khrypko.family.budget.dto.FamilyDTO;
+import ua.com.khrypko.family.budget.dto.user.FamilyDTO;
 import ua.com.khrypko.family.budget.entity.user.Family;
 import ua.com.khrypko.family.budget.entity.user.User;
 
@@ -29,17 +29,17 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public Family getFamily(int id) {
+    public Family getFamily(long id) {
         return familyRepository.getOne(id);
     }
 
     @Override
-    public Family getFamilyByUser(int userId) {
+    public Family getFamilyByUser(long userId) {
         return userService.getUser(userId).getFamily();
     }
 
     @Override
-    public FamilyDTO getFamilyDTO(int id) {
+    public FamilyDTO getFamilyDTO(long id) {
         return createDTO(getFamily(id));
     }
 
@@ -53,7 +53,7 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public FamilyDTO getFamilyDTOByUser(int userId) {
+    public FamilyDTO getFamilyDTOByUser(long userId) {
         return createDTO(getFamilyByUser(userId));
     }
 
@@ -65,7 +65,7 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public Family addUser(int familyId, int userId) {
+    public Family addUser(long familyId, long userId) {
         Family family = familyRepository.getOne(familyId);
         User user = userService.getUser(userId);
         family.addUser(user);
@@ -74,7 +74,7 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public Family removeUser(int familyId, int userId) {
+    public Family removeUser(long familyId, long userId) {
         Family family = familyRepository.getOne(familyId);
         User user = userService.getUser(userId);
         family.removeUser(user);

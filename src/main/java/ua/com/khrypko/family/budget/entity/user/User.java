@@ -14,19 +14,21 @@ public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private long id;
 
+    private String email;
     private String name;
+    private String surname;
     private String password;
 
     @ManyToOne
     private Family family;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -54,6 +56,22 @@ public class User {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,13 +79,11 @@ public class User {
 
         User user = (User) o;
 
-        if (!id.equals(user.id)) return false;
-
-        return true;
+        return id == user.id;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return (int) (id ^ (id >>> 32));
     }
 }

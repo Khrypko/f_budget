@@ -90,7 +90,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenseRepository.save(expense);
     }
 
-    private Family getFamily(int familyId) {
+    private Family getFamily(long familyId) {
         return familyService.getFamily(familyId);
     }
 

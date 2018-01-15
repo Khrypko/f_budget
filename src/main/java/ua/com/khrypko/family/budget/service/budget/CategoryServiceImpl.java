@@ -46,12 +46,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getCategoriesByFamilyId(int familyId) {
+    public List<Category> getCategoriesByFamilyId(long familyId) {
         return categoryRepository.getCategoriesByFamiliesId(familyId);
     }
 
     @Override
-    public List<CategoryDTO> getCategoriesDTOsByFamilyId(int userId) {
+    public List<CategoryDTO> getCategoriesDTOsByFamilyId(long userId) {
         return getCategoriesByFamilyId(userId)
                 .stream()
                 .map(this::createCategoryDTO)

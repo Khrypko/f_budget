@@ -5,8 +5,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ua.com.khrypko.family.budget.dto.user.UserRequest;
+import ua.com.khrypko.family.budget.entity.user.Family;
+import ua.com.khrypko.family.budget.exception.ValidationException;
+import ua.com.khrypko.family.budget.repository.FamilyRepository;
 import ua.com.khrypko.family.budget.repository.UserRepository;
-import ua.com.khrypko.family.budget.dto.UserDTO;
+import ua.com.khrypko.family.budget.dto.user.UserDTO;
 import ua.com.khrypko.family.budget.entity.user.User;
 import ua.com.khrypko.family.budget.exception.NoSuchEntity;
 import ua.com.khrypko.family.budget.secutity.SecurityUser;
@@ -18,21 +22,30 @@ import ua.com.khrypko.family.budget.secutity.SecurityUser;
 public class UserServiceImpl implements UserService, UserDetailsService{
 
     private UserRepository userRepository;
+    private FamilyRepository familyRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(FamilyRepository familyRepository, UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.familyRepository = familyRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findOneByName(s).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", s)));
+        User user = userRepository.findOneByEmail(s).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", s)));
         return new SecurityUser(user);
     }
 
+
+
     @Override
-    public User getUser(int userId) {
+    public User getUser(long userId) {
         return userRepository.findById(userId).orElseThrow(NoSuchEntity::new);
+    }
+
+    @Override
+    public User fetchUserByEmail(String email) {
+        return userRepository.findOneByEmail(email).orElseThrow(NoSuchEntity::new);
     }
 
     @Override
@@ -45,5 +58,34 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         System.out.println(userDTO);
 
         return userDTO;
+    }
+
+    @Override
+    public User createUser(UserRequest request) {
+        UserUtils.validateRequest(request);
+
+        User user = new User();
+        user = updateFromDTO(user, request);
+        user.setPassword(request.getPassword());
+        user.setFamily(loadFamily(request));
+
+        return userRepository.save(user);
+    }
+
+    private User updateFromDTO(User user ,UserDTO request) {
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        user.setSurname(request.getSurname());
+        return user;
+    }
+
+    private Family loadFamily(UserDTO request) {
+        return familyRepository.getOne(request.getFamily());
+    }
+
+    //TODO
+    @Override
+    public User updateUser(UserDTO userDTO) {
+        return null;
     }
 }

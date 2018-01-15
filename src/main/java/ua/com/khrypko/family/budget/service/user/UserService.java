@@ -1,6 +1,8 @@
 package ua.com.khrypko.family.budget.service.user;
 
-import ua.com.khrypko.family.budget.dto.UserDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import ua.com.khrypko.family.budget.dto.user.UserDTO;
+import ua.com.khrypko.family.budget.dto.user.UserRequest;
 import ua.com.khrypko.family.budget.entity.user.User;
 
 /**
@@ -8,8 +10,14 @@ import ua.com.khrypko.family.budget.entity.user.User;
  */
 public interface UserService {
 
-    User getUser(int userId);
+    User getUser(long userId);
+
+    User fetchUserByEmail(String email);
 
     UserDTO createDTO(User user);
+
+    User createUser(UserRequest request);
+
+    User updateUser(UserDTO userDTO);
 
 }
