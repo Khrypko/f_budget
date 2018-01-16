@@ -15,10 +15,13 @@ import ua.com.khrypko.family.budget.entity.user.User;
 import ua.com.khrypko.family.budget.exception.NoSuchEntity;
 import ua.com.khrypko.family.budget.secutity.SecurityUser;
 
+import javax.transaction.Transactional;
+
 /**
  * Created by Ира on 24.08.2017.
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService, UserDetailsService{
 
     private UserRepository userRepository;
@@ -80,6 +83,8 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     private Family loadFamily(UserDTO request) {
+        if (request.getFamily() == 0)
+            return null;
         return familyRepository.getOne(request.getFamily());
     }
 

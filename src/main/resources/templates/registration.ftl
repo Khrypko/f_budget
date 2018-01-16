@@ -31,7 +31,7 @@
             <div class="card mx-4">
                 <div class="card-body p-4">
                     <h1>Регистрация</h1>
-                    <form>
+                    <form action="/registration" method="post">
                         <p class="text-muted">Создайте свой аккаунт</p>
                         <div class="input-group mb-3">
                             <span class="input-group-addon"><i class="icon-user"></i></span>
@@ -55,10 +55,10 @@
 
                         <div class="input-group mb-4">
                             <span class="input-group-addon"><i class="icon-lock"></i></span>
-                            <input type="password" name="repeatpassword" class="form-control" placeholder="Повторите пароль">
+                            <input type="password" name="repeatPassword" class="form-control" placeholder="Повторите пароль">
                         </div>
 
-                        <button type="button" class="btn btn-block btn-success">Создать аккаунт</button>
+                        <button type="submit" class="btn btn-block btn-success">Создать аккаунт</button>
                     </form>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.stereotype.Service;
 import ua.com.khrypko.family.budget.dto.user.UserRequest;
 import ua.com.khrypko.family.budget.entity.user.User;
 import ua.com.khrypko.family.budget.exception.MailSendingProblem;
@@ -20,6 +21,7 @@ import java.util.Random;
 /**
  * Created by Maks on 15.01.2018.
  */
+@Service
 public class RegistrationServiceImpl implements RegistrationService {
 
     private static final int RANDOM_STRING_LENGTH = 40;
@@ -74,8 +76,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         msg.setSubject(subject);
 
         try {
-            //TODO
-            //mailSender.send(msg);
+            mailSender.send(msg);
         } catch (MailException e){
             throw new MailSendingProblem(e);
         }

@@ -12,8 +12,7 @@ public class UserUtils {
         if (request == null
                 || emptyField(request.getEmail())
                 || emptyField(request.getName())
-                || emptyField(request.getPassword())
-                || request.getFamily() == 0)
+                || emptyField(request.getPassword()))
             throw new ValidationException();
 
     }
