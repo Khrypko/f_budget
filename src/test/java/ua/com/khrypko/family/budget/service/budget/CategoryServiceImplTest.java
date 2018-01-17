@@ -5,8 +5,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.khrypko.family.budget.repository.CategoryRepository;
-import ua.com.khrypko.family.budget.entity.budget.Category;
+import ua.com.khrypko.family.budget.category.repository.CategoryRepository;
+import ua.com.khrypko.family.budget.category.entity.Category;
 
 import java.util.ArrayList;
 import java.util.List;

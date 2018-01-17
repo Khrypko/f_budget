@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.User;
  */
 public class SecurityUser extends User {
 
-    private ua.com.khrypko.family.budget.entity.user.User user;
+    private ua.com.khrypko.family.budget.user.entity.User user;
 
-    public SecurityUser(ua.com.khrypko.family.budget.entity.user.User user) {
+    public SecurityUser(ua.com.khrypko.family.budget.user.entity.User user) {
         super(user.getName(), user.getPassword(), AuthorityUtils.createAuthorityList("USER"));
         this.user = user;
     }
