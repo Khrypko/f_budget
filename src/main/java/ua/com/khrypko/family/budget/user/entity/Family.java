@@ -19,7 +19,12 @@ public class Family {
 
     private String name;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "family_users",
+            joinColumns = { @JoinColumn(name = "family") },
+            inverseJoinColumns = { @JoinColumn(name = "user") }
+    )
     private Set<User> users = new HashSet<>();
 
     @ManyToMany(mappedBy = "families")
@@ -30,6 +35,8 @@ public class Family {
 
     @Column(name = "uniqueId")
     private String uniqueUrl;
+
+    private boolean active;
 
     public long getId() {
         return id;
@@ -89,5 +96,13 @@ public class Family {
 
     public void setUniqueUrl(String uniqueUrl) {
         this.uniqueUrl = uniqueUrl;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

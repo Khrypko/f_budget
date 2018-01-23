@@ -1,5 +1,6 @@
 package ua.com.khrypko.family.budget.user.service;
 
+import ua.com.khrypko.family.budget.common.Options;
 import ua.com.khrypko.family.budget.user.dto.UserDTO;
 import ua.com.khrypko.family.budget.user.dto.UserRequest;
 import ua.com.khrypko.family.budget.user.entity.User;
@@ -13,7 +14,7 @@ public interface UserService {
 
     User fetchUserByEmail(String email);
 
-    UserDTO createDTO(User user);
+    UserDTO createDTO(User user, Options<Options.StringOption> options);
 
     User createUser(UserRequest request);
 

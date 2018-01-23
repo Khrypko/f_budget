@@ -10,6 +10,7 @@ import ua.com.khrypko.family.budget.user.dto.FamilyDto;
 import ua.com.khrypko.family.budget.user.entity.Family;
 import ua.com.khrypko.family.budget.user.entity.User;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -35,29 +36,11 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public Family getFamilyByUser(long userId) {
-        return userService.getUser(userId).getFamily();
+    public Set<Family> getFamilyByUser(long userId) {
+        //TODO
+        return null;
     }
 
-    @Override
-    public FamilyDto getFamilyDTO(long id, Options options) {
-        return createDTO(getFamily(id));
-    }
-
-    private FamilyDto createDTO(Family family) {
-        FamilyDto dto = new FamilyDto();
-        dto.setId(family.getId());
-        dto.setName(family.getName());
-
-        //dto.setUsers(family.getUsers().stream().map(userService::createDTO).collect(Collectors.toList()));
-
-        return dto;
-    }
-
-    @Override
-    public FamilyDto getFamilyDTOByUser(long userId, Options options) {
-        return createDTO(getFamilyByUser(userId));
-    }
 
     @Override
     public Family createFamily(FamilyDto familyDTO) {

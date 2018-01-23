@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ua.com.khrypko.family.budget.common.Options;
+import ua.com.khrypko.family.budget.user.dto.ExtendedUserDto;
 import ua.com.khrypko.family.budget.user.dto.UserRequest;
 import ua.com.khrypko.family.budget.user.entity.Family;
 import ua.com.khrypko.family.budget.user.repository.FamilyRepository;
@@ -15,6 +17,7 @@ import ua.com.khrypko.family.budget.exception.NoSuchEntity;
 import ua.com.khrypko.family.budget.secutity.SecurityUser;
 
 import javax.transaction.Transactional;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ира on 24.08.2017.
@@ -51,11 +54,15 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     @Override
-    public UserDTO createDTO(User user) {
-        UserDTO userDTO = new UserDTO();
+    public UserDTO createDTO(User user, Options<Options.StringOption> options) {
+        //TODO
+        ExtendedUserDto userDTO = new ExtendedUserDto();
         userDTO.setId(user.getId());
         userDTO.setName(user.getName());
-        userDTO.setFamily(user.getFamily().getId());
+        userDTO.setFamilies(user.getFamilies()
+                .stream()
+                .map(Family::getId)
+                .collect(Collectors.toList()));
 
         System.out.println(userDTO);
 
@@ -69,7 +76,8 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         User user = new User();
         user = updateFromDTO(user, request);
         user.setPassword(request.getPassword());
-        user.setFamily(loadFamily(request));
+        //TODO
+        //user.setFamily(loadFamily(request));
 
         return userRepository.save(user);
     }
