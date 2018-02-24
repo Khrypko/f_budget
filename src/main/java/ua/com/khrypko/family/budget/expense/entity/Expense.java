@@ -1,9 +1,13 @@
 package ua.com.khrypko.family.budget.expense.entity;
 
+import org.hibernate.annotations.Type;
 import ua.com.khrypko.family.budget.category.entity.Category;
 import ua.com.khrypko.family.budget.user.entity.Family;
+import ua.com.khrypko.family.budget.user.entity.User;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Ира on 22.08.2017.
@@ -13,19 +17,21 @@ import javax.persistence.*;
 public class Expense {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
-    private String name;
-    private String comment;
+    @Type(type="date")
+    private Date date;
 
-    private boolean active;
+    private BigDecimal amount;
+
+    private String comment;
 
     @ManyToOne
     private Category category;
 
     @ManyToOne
-    private Family family;
+    private User user;
 
     public long getId() {
         return id;
@@ -35,12 +41,20 @@ public class Expense {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Date getDate() {
+        return date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public Category getCategory() {
@@ -51,44 +65,19 @@ public class Expense {
         this.category = category;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public Family getFamily() {
-        return family;
-    }
-
-    public void setFamily(Family family) {
-        this.family = family;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Expense expense = (Expense) o;
-
-        if (id != expense.id) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
     }
 }

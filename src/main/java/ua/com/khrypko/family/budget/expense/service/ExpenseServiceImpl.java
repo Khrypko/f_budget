@@ -2,6 +2,8 @@ package ua.com.khrypko.family.budget.expense.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ua.com.khrypko.family.budget.common.Interval;
 import ua.com.khrypko.family.budget.expense.dto.ExpenseDTO;
 import ua.com.khrypko.family.budget.category.entity.Category;
 import ua.com.khrypko.family.budget.expense.entity.Expense;
@@ -22,23 +24,16 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     private ExpenseRepository expenseRepository;
     private CategoryService categoryService;
-    private FamilyService familyService;
 
     @Autowired
-    public ExpenseServiceImpl(ExpenseRepository expenseRepository, CategoryService categoryService, FamilyService familyService) {
+    public ExpenseServiceImpl(ExpenseRepository expenseRepository, CategoryService categoryService) {
         this.expenseRepository = expenseRepository;
         this.categoryService = categoryService;
-        this.familyService = familyService;
     }
 
     @Override
-    public List<Expense> getFamilyExpenses(int familyId) {
-        return expenseRepository.findByFamilyIdAndActiveIs(familyId, true);
-    }
-
-    @Override
-    public List<Expense> getFamilyInactiveExpenses(int familyId) {
-        return expenseRepository.findByFamilyIdAndActiveIs(familyId, false);
+    public List<Expense> getFamilyExpenses(int familyId, Interval interval) {
+        throw new NotImplementedException();
     }
 
     @Override
@@ -49,58 +44,41 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expense;
     }
 
-    @Override
-    public List<ExpenseDTO> getFamilyExpensesDTO(int familyId) {
-        return createDTOs(getFamilyExpenses(familyId));
-    }
+//    private List<ExpenseDTO> createDTOs(List<Expense> familyExpenses) {
+//        return familyExpenses.stream().map(this::createDTO).collect(Collectors.toList());
+//    }
 
-    private List<ExpenseDTO> createDTOs(List<Expense> familyExpenses) {
-        return familyExpenses.stream().map(this::createDTO).collect(Collectors.toList());
-    }
+//    private ExpenseDTO createDTO(Expense expense){
+//        ExpenseDTO expenseDTO = new ExpenseDTO();
+//        expenseDTO.setId(expense.getId());
+//        expenseDTO.setName(expense.getName());
+//        expenseDTO.setActive(expense.isActive());
+//        expenseDTO.setCategoryId(expense.getCategory().getId());
+//        expenseDTO.setFamilyId(expense.getFamily().getId());
+//
+//        return expenseDTO;
+//    }
 
-    private ExpenseDTO createDTO(Expense expense){
-        ExpenseDTO expenseDTO = new ExpenseDTO();
-        expenseDTO.setId(expense.getId());
-        expenseDTO.setName(expense.getName());
-        expenseDTO.setActive(expense.isActive());
-        expenseDTO.setCategoryId(expense.getCategory().getId());
-        expenseDTO.setFamilyId(expense.getFamily().getId());
-
-        return expenseDTO;
-    }
 
     @Override
-    public List<ExpenseDTO> getFamilyInactiveExpensesDTO(int familyId) {
-        return createDTOs(getFamilyInactiveExpenses(familyId));
-    }
-
-    @Override
-    public ExpenseDTO getExpenseDTO(long expenseId) {
-        return createDTO(getExpense(expenseId));
-    }
-
-    @Override
+    //TODO: implement
     public Expense createExpense(ExpenseDTO expenseDTO) {
 
         Expense expense = new Expense();
         expense = updateFromDTO(expense, expenseDTO);
-        expense.setActive(true);
         expense.setCategory(getCategory(expenseDTO.getCategoryId()));
-        expense.setFamily(getFamily(expenseDTO.getFamilyId()));
 
-        return expenseRepository.save(expense);
-    }
 
-    private Family getFamily(long familyId) {
-        return familyService.getFamily(familyId);
+        //return expenseRepository.save(expense);
+        throw new NotImplementedException();
     }
 
     private Category getCategory(long categoryId) {
         return categoryService.getCategory(categoryId);
     }
 
+    //TODO implement
     private Expense updateFromDTO(Expense expense, ExpenseDTO expenseDTO) {
-        expense.setName(expenseDTO.getName());
         expense.setComment(expenseDTO.getComment());
         return expense;
     }
@@ -113,17 +91,4 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenseRepository.save(expense);
     }
 
-    @Override
-    public void disableExpense(long expenseId) {
-        Expense expense = getExpense(expenseId);
-        expense.setActive(false);
-        expenseRepository.save(expense);
-    }
-
-    @Override
-    public void enableExpense(long expenseId) {
-        Expense expense = getExpense(expenseId);
-        expense.setActive(true);
-        expenseRepository.save(expense);
-    }
 }

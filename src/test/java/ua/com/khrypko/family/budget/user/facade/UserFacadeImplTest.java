@@ -2,6 +2,7 @@ package ua.com.khrypko.family.budget.user.facade;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -50,6 +51,7 @@ public class UserFacadeImplTest {
     }
 
     @Test
+    @Ignore
     public void testCreateFamily(){
 
         when(userService.getUser(1L)).thenReturn(getUser());

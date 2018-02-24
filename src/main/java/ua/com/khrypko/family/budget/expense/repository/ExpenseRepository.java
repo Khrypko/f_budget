@@ -8,8 +8,9 @@ import java.util.List;
 /**
  * Created by Ира on 22.08.2017.
  */
+//TODO implement
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-    List<Expense> findByFamilyIdAndActiveIs(Integer id, boolean active);
+    List<Expense> findByUserId(Long id);
 
 }

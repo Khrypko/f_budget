@@ -9,6 +9,7 @@ import ua.com.khrypko.family.budget.common.Options;
 import ua.com.khrypko.family.budget.user.dto.ExtendedUserDto;
 import ua.com.khrypko.family.budget.user.dto.UserRequest;
 import ua.com.khrypko.family.budget.user.entity.Family;
+import ua.com.khrypko.family.budget.user.exception.SuchUserAlreadyExists;
 import ua.com.khrypko.family.budget.user.repository.FamilyRepository;
 import ua.com.khrypko.family.budget.user.repository.UserRepository;
 import ua.com.khrypko.family.budget.user.dto.UserDTO;
@@ -54,15 +55,17 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     @Override
+    public boolean userExist(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     public UserDTO createDTO(User user, Options<Options.StringOption> options) {
         //TODO
-        ExtendedUserDto userDTO = new ExtendedUserDto();
+        UserDTO userDTO = new ExtendedUserDto();
         userDTO.setId(user.getId());
         userDTO.setName(user.getName());
-        userDTO.setFamilies(user.getFamilies()
-                .stream()
-                .map(Family::getId)
-                .collect(Collectors.toList()));
+        userDTO.setFamily(user.getFamily().getId());
 
         System.out.println(userDTO);
 
@@ -77,7 +80,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         user = updateFromDTO(user, request);
         user.setPassword(request.getPassword());
         //TODO
-        //user.setFamily(loadFamily(request));
+        user.setFamily(loadFamily(request));
 
         return userRepository.save(user);
     }

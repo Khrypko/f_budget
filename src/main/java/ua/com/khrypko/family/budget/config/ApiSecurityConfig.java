@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * Created by Ира on 25.08.2017.
  */
 @Configuration
-@Order(1)
 public class ApiSecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -25,10 +24,10 @@ public class ApiSecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().antMatcher("/api/**")
-                .authorizeRequests()
-                    .anyRequest().fullyAuthenticated()
-                    .and()
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/api/registration/**").permitAll()
+                .antMatchers("/api/**").fullyAuthenticated()
+                .and()
                 .httpBasic();
     }
 

@@ -14,6 +14,8 @@ public interface UserService {
 
     User fetchUserByEmail(String email);
 
+    boolean userExist(String email);
+
     UserDTO createDTO(User user, Options<Options.StringOption> options);
 
     User createUser(UserRequest request);

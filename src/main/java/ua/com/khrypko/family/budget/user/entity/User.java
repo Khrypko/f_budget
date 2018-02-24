@@ -1,7 +1,6 @@
 package ua.com.khrypko.family.budget.user.entity;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Created by Ира on 22.08.2017.
@@ -18,8 +17,8 @@ public class User {
     private String surname;
     private String password;
 
-    @ManyToMany(mappedBy = "users")
-    private Set<Family> families;
+    @OneToOne
+    private Family family;
 
     private boolean active;
 
@@ -43,12 +42,12 @@ public class User {
         return password;
     }
 
-    public Set<Family> getFamilies() {
-        return families;
+    public Family getFamily() {
+        return family;
     }
 
-    public void setFamilies(Set<Family> families) {
-        this.families = families;
+    public void setFamily(Family family) {
+        this.family = family;
     }
 
     public void setPassword(String password) {

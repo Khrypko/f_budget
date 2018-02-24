@@ -6,11 +6,11 @@ package ua.com.khrypko.family.budget.expense.dto;
 public class ExpenseDTO {
 
     private long id;
-    private String name;
     private String comment;
-    private boolean active;
+    private String expenseDate;
+    private String amount;
     private long categoryId;
-    private long familyId;
+    private long userId;
 
     public long getId() {
         return id;
@@ -18,14 +18,6 @@ public class ExpenseDTO {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getComment() {
@@ -36,12 +28,20 @@ public class ExpenseDTO {
         this.comment = comment;
     }
 
-    public boolean isActive() {
-        return active;
+    public String getExpenseDate() {
+        return expenseDate;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setExpenseDate(String expenseDate) {
+        this.expenseDate = expenseDate;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
     public long getCategoryId() {
@@ -52,11 +52,11 @@ public class ExpenseDTO {
         this.categoryId = categoryId;
     }
 
-    public long getFamilyId() {
-        return familyId;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setFamilyId(long familyId) {
-        this.familyId = familyId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }
