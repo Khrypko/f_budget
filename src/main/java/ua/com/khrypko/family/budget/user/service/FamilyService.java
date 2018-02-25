@@ -12,11 +12,10 @@ import java.util.Set;
 public interface FamilyService {
 
     Family getFamily(long id);
-    Set<Family> getFamilyByUser(long userId);
+    Family getFamilyByUser(long userId);
+    Family getFamilyByUniqueUrl(String uniqueUrl);
 
     Family createFamily(FamilyDto familyDTO);
-    Family addUser(long familyId, long userId);
-    Family removeUser(long familyId, long userId);
-    Family updateFamily(FamilyDto familyDTO);
+    Family updateFamily(Family family);
 
 }

@@ -16,10 +16,12 @@ public interface UserService {
 
     boolean userExist(String email);
 
-    UserDTO createDTO(User user, Options<Options.StringOption> options);
+    UserDTO createDTO(User user);
 
     User createUser(UserRequest request);
 
     User updateUser(UserDTO userDTO);
+
+    User updateUser(User userDTO);
 
 }

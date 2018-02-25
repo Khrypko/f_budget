@@ -19,12 +19,8 @@ public class Family {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "family_users",
-            joinColumns = { @JoinColumn(name = "family") },
-            inverseJoinColumns = { @JoinColumn(name = "user") }
-    )
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "family")
     private Set<User> users = new HashSet<>();
 
     @ManyToMany(mappedBy = "families")
@@ -104,5 +100,27 @@ public class Family {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Family family = (Family) o;
+
+        if (id != family.id) return false;
+        if (active != family.active) return false;
+        if (!name.equals(family.name)) return false;
+        return uniqueUrl.equals(family.uniqueUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + name.hashCode();
+        result = 31 * result + uniqueUrl.hashCode();
+        result = 31 * result + (active ? 1 : 0);
+        return result;
     }
 }

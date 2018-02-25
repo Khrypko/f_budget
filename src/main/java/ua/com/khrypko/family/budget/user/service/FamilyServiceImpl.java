@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.khrypko.family.budget.common.Options;
+import ua.com.khrypko.family.budget.common.RandomStringGenerator;
 import ua.com.khrypko.family.budget.exception.NoSuchEntity;
 import ua.com.khrypko.family.budget.user.repository.FamilyRepository;
 import ua.com.khrypko.family.budget.user.dto.FamilyDto;
@@ -13,6 +14,8 @@ import ua.com.khrypko.family.budget.user.entity.User;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static ua.com.khrypko.family.budget.common.RandomStringGenerator.generateRandomUrlString;
+
 /**
  * Created by maks on 19.11.17.
  */
@@ -20,60 +23,58 @@ import java.util.stream.Collectors;
 @Transactional
 public class FamilyServiceImpl implements FamilyService {
 
+    private static final String DEFAULT_NAME = "Нова сім'я";
     private FamilyRepository familyRepository;
 
-    private UserService userService;
-
     @Autowired
-    public FamilyServiceImpl(FamilyRepository familyRepository, UserService userService) {
+    public FamilyServiceImpl(FamilyRepository familyRepository) {
         this.familyRepository = familyRepository;
-        this.userService = userService;
     }
 
     @Override
     public Family getFamily(long id) {
-        return familyRepository.getOne(id);
+        Family family = familyRepository.getOne(id);
+        if (family == null) throw new NoSuchEntity();
+        return family;
     }
 
     @Override
-    public Set<Family> getFamilyByUser(long userId) {
-        //TODO
-        return null;
+    public Family getFamilyByUser(long userId) {
+        Family family = familyRepository.findFamilyByUsersIdContaining(userId);
+        if (family == null) throw new NoSuchEntity();
+        return family;
+    }
+
+    @Override
+    public Family getFamilyByUniqueUrl(String uniqueUrl) {
+        Family family = familyRepository.findByUniqueUrl(uniqueUrl);
+        if (family == null) throw new NoSuchEntity();
+        return family;
     }
 
 
     @Override
     public Family createFamily(FamilyDto familyDTO) {
         Family family = new Family();
-        family.setName(familyDTO.getName());
+        family.setName(familyDTO.getName() == null ? DEFAULT_NAME : familyDTO.getName());
+        family.setUniqueUrl(generateUniqueUrl());
         return familyRepository.save(family);
     }
 
-    @Override
-    public Family addUser(long familyId, long userId) {
-        Family family = familyRepository.getOne(familyId);
-        User user = userService.getUser(userId);
-        family.addUser(user);
+    private String generateUniqueUrl() {
+        String randomUrl = generateRandomUrlString();
+        while (urlAlreadyExists(randomUrl)){
+            randomUrl = generateRandomUrlString();
+        }
+        return randomUrl;
+    }
 
-        return familyRepository.save(family);
+    private boolean urlAlreadyExists(String randomUrl) {
+        return familyRepository.existsByUniqueUrl(randomUrl);
     }
 
     @Override
-    public Family removeUser(long familyId, long userId) {
-        Family family = familyRepository.getOne(familyId);
-        User user = userService.getUser(userId);
-        family.removeUser(user);
-
-        return familyRepository.save(family);
-
-    }
-
-    @Override
-    public Family updateFamily(FamilyDto familyDTO) {
-        Family family = familyRepository.getOne(familyDTO.getId());
-        if (family == null)
-            throw new NoSuchEntity();
-        family.setName(familyDTO.getName());
+    public Family updateFamily(Family family) {
         return familyRepository.save(family);
     }
 }

@@ -17,7 +17,7 @@ public class CategoryServiceImplTest extends TestCase {
     @Mock
     private CategoryRepository categoryRepository;
 
-    @Before
+//    @Before
     public void setUp(){
         setUpEntriesInRepository();
     }

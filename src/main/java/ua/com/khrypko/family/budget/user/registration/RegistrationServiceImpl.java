@@ -6,26 +6,22 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import ua.com.khrypko.family.budget.common.RandomStringGenerator;
 import ua.com.khrypko.family.budget.user.dto.UserRequest;
 import ua.com.khrypko.family.budget.user.entity.User;
 import ua.com.khrypko.family.budget.exception.MailSendingProblem;
-import ua.com.khrypko.family.budget.exception.NoSuchEntity;
 import ua.com.khrypko.family.budget.user.exception.SuchUserAlreadyExists;
 import ua.com.khrypko.family.budget.user.exception.UserConfirmationFailed;
 import ua.com.khrypko.family.budget.user.registration.request.RegistrationRequest;
+import ua.com.khrypko.family.budget.user.service.UserFacade;
 import ua.com.khrypko.family.budget.user.service.UserService;
 import ua.com.khrypko.family.budget.user.service.UserUtils;
-
-import javax.annotation.PostConstruct;
-import java.util.Random;
 
 /**
  * Created by Maks on 15.01.2018.
  */
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
-
-    private static final int RANDOM_STRING_LENGTH = 40;
 
     @Value("${mailtext.registration_subject}")
     private String registrationSubject;
@@ -38,20 +34,20 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private MailSender mailSender;
 
-    private UserService userService;
+    private UserFacade userFacade;
 
     private TemporaryUserContainer container;
 
     @Autowired
-    public RegistrationServiceImpl(MailSender mailSender, UserService userService) {
+    public RegistrationServiceImpl(MailSender mailSender, UserFacade userFacade) {
         container = new TemporaryUserContainer();
-        this.userService = userService;
+        this.userFacade = userFacade;
         this.mailSender = mailSender;
     }
 
-    public RegistrationServiceImpl(MailSender mailSender, UserService userService, TemporaryUserContainer container) {
+    public RegistrationServiceImpl(MailSender mailSender, UserFacade userFacade, TemporaryUserContainer container) {
         this.mailSender = mailSender;
-        this.userService = userService;
+        this.userFacade = userFacade;
         this.container = container;
     }
 
@@ -61,7 +57,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         checkIfUserWithSuchEmailExists(userRequest.getEmail());
 
-        String newRandomUrl = generateRandomUrlString();
+        String newRandomUrl = RandomStringGenerator.generateRandomUrlString();
         RegistrationRequest registrationRequest = new RegistrationRequest(userRequest, newRandomUrl);
 
         container.addRegistrationRequest(newRandomUrl, registrationRequest);
@@ -100,18 +96,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     }
 
-    private String generateRandomUrlString() {
-        char[] chars = "abcdefghijklmnopqrstuvwxyz_1234567890".toCharArray();
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < RANDOM_STRING_LENGTH; i++) {
-            char c = chars[random.nextInt(chars.length)];
-            sb.append(c);
-        }
-
-        return sb.toString();
-    }
-
     private void checkIfUserWithSuchEmailExists(String email) {
         checkIfSuchUserAlreadyInRegistrationProcess(email);
         checkIfUserPresentInDB(email);
@@ -124,7 +108,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     private void checkIfUserPresentInDB(String email) {
-        if (userService.userExist(email))
+        if (userFacade.userExist(email))
             throw new SuchUserAlreadyExists();
     }
 
@@ -134,7 +118,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (registrationRequest == null)
             throw new UserConfirmationFailed();
 
-        User user = userService.createUser(registrationRequest.getUserRequest());
+        User user = userFacade.createUser(registrationRequest.getUserRequest());
 
         container.removeRegistrationRequest(uniqueUrl);
 

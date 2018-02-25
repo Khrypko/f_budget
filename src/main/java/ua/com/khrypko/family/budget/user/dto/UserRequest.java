@@ -7,7 +7,7 @@ public class UserRequest extends UserDTO{
 
     private String password;
     private String repeatPassword;
-
+    private String familyUrl;
 
     public String getPassword() {
         return password;
@@ -23,5 +23,13 @@ public class UserRequest extends UserDTO{
 
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
+    }
+
+    public String getFamilyUrl() {
+        return familyUrl;
+    }
+
+    public void setFamilyUrl(String familyUrl) {
+        this.familyUrl = familyUrl;
     }
 }

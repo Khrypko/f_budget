@@ -11,6 +11,10 @@ public class FamilyDto {
     private String name;
     private String uniqueId;
 
+    public static FamilyDto empty(){
+        return new FamilyDto();
+    }
+
     public long getId() {
         return id;
     }

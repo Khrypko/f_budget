@@ -6,10 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ua.com.khrypko.family.budget.common.Options;
-import ua.com.khrypko.family.budget.user.dto.ExtendedUserDto;
 import ua.com.khrypko.family.budget.user.dto.UserRequest;
 import ua.com.khrypko.family.budget.user.entity.Family;
-import ua.com.khrypko.family.budget.user.exception.SuchUserAlreadyExists;
 import ua.com.khrypko.family.budget.user.repository.FamilyRepository;
 import ua.com.khrypko.family.budget.user.repository.UserRepository;
 import ua.com.khrypko.family.budget.user.dto.UserDTO;
@@ -18,7 +16,6 @@ import ua.com.khrypko.family.budget.exception.NoSuchEntity;
 import ua.com.khrypko.family.budget.secutity.SecurityUser;
 
 import javax.transaction.Transactional;
-import java.util.stream.Collectors;
 
 /**
  * Created by Ира on 24.08.2017.
@@ -28,12 +25,10 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService, UserDetailsService{
 
     private UserRepository userRepository;
-    private FamilyRepository familyRepository;
 
     @Autowired
-    public UserServiceImpl(FamilyRepository familyRepository, UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.familyRepository = familyRepository;
     }
 
     @Override
@@ -60,9 +55,8 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     @Override
-    public UserDTO createDTO(User user, Options<Options.StringOption> options) {
-        //TODO
-        UserDTO userDTO = new ExtendedUserDto();
+    public UserDTO createDTO(User user) {
+        UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setName(user.getName());
         userDTO.setFamily(user.getFamily().getId());
@@ -79,8 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         User user = new User();
         user = updateFromDTO(user, request);
         user.setPassword(request.getPassword());
-        //TODO
-        user.setFamily(loadFamily(request));
+        user.setActive(true);
 
         return userRepository.save(user);
     }
@@ -92,15 +85,15 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         return user;
     }
 
-    private Family loadFamily(UserDTO request) {
-        if (request.getFamily() == 0)
-            return null;
-        return familyRepository.getOne(request.getFamily());
+    //TODO
+    @Override
+    public User updateUser(UserDTO userDTO) {
+        return null;
     }
 
     //TODO
     @Override
-    public User updateUser(UserDTO userDTO) {
+    public User updateUser(User userDTO) {
         return null;
     }
 }

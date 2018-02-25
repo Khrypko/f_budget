@@ -8,14 +8,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import ua.com.khrypko.family.budget.exception.NoSuchEntity;
 import ua.com.khrypko.family.budget.exception.ValidationException;
 import ua.com.khrypko.family.budget.user.dto.UserRequest;
 import ua.com.khrypko.family.budget.user.entity.User;
 import ua.com.khrypko.family.budget.user.exception.SuchUserAlreadyExists;
 import ua.com.khrypko.family.budget.user.exception.UserConfirmationFailed;
 import ua.com.khrypko.family.budget.user.registration.request.RegistrationRequest;
-import ua.com.khrypko.family.budget.user.service.UserService;
+import ua.com.khrypko.family.budget.user.service.UserFacade;
 
 import static org.junit.Assert.*;
 
@@ -31,7 +30,7 @@ public class RegistrationServiceImplTest {
     private RegistrationService registrationService;
 
     @Mock
-    private UserService userService;
+    private UserFacade userFacade;
 
     @Mock
     private MailSender mailSender;
@@ -41,7 +40,7 @@ public class RegistrationServiceImplTest {
     @Before
     public void setUp(){
         container = Mockito.mock(TemporaryUserContainer.class);
-        registrationService = new RegistrationServiceImpl(mailSender, userService, container)
+        registrationService = new RegistrationServiceImpl(mailSender, userFacade, container)
                 .setDomain("test")
                 .setRegistrationSubject("registration")
                 .setRegistrationText("test %s");
@@ -50,7 +49,7 @@ public class RegistrationServiceImplTest {
     @Test
     public void testRegistrationRequestCreated(){
 
-        when(userService.userExist(anyString())).thenReturn(false);
+        when(userFacade.userExist(anyString())).thenReturn(false);
 
         registrationService.performCreateRequest(getUserRequest());
 
@@ -60,7 +59,7 @@ public class RegistrationServiceImplTest {
 
     @Test(expected = SuchUserAlreadyExists.class)
     public void testFailsIfUserAlreadyExists(){
-        when(userService.userExist(anyString())).thenReturn(true);
+        when(userFacade.userExist(anyString())).thenReturn(true);
         registrationService.performCreateRequest(getUserRequest());
     }
 
@@ -88,11 +87,11 @@ public class RegistrationServiceImplTest {
     @Test
     public void testConfirmRegistrationSuccessful(){
         when(container.getRegistrationRequest(anyString())).thenReturn(registrationRequest());
-        when(userService.createUser(any())).thenReturn(user());
+        when(userFacade.createUser(any())).thenReturn(user());
 
         User user = registrationService.confirmRegistration(UNIQUE_ID);
 
-        verify(userService, times(1)).createUser(any());
+        verify(userFacade, times(1)).createUser(any());
         assertNotNull(user);
         verify(container).removeRegistrationRequest(UNIQUE_ID);
     }

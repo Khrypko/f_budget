@@ -17,7 +17,7 @@ public class User {
     private String surname;
     private String password;
 
-    @OneToOne
+    @ManyToOne
     private Family family;
 
     private boolean active;
@@ -85,11 +85,20 @@ public class User {
 
         User user = (User) o;
 
-        return id == user.id;
+        if (id != user.id) return false;
+        if (active != user.active) return false;
+        if (!email.equals(user.email)) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        return surname != null ? surname.equals(user.surname) : user.surname == null;
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + email.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (active ? 1 : 0);
+        return result;
     }
 }

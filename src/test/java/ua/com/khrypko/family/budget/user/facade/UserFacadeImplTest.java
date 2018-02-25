@@ -2,23 +2,25 @@ package ua.com.khrypko.family.budget.user.facade;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
+import org.springframework.mail.SimpleMailMessage;
 import ua.com.khrypko.family.budget.user.dto.FamilyDto;
 import ua.com.khrypko.family.budget.user.dto.FamilyDtoWithUsers;
 import ua.com.khrypko.family.budget.user.dto.UserDTO;
+import ua.com.khrypko.family.budget.user.dto.UserRequest;
 import ua.com.khrypko.family.budget.user.entity.Family;
 import ua.com.khrypko.family.budget.user.entity.User;
 import ua.com.khrypko.family.budget.user.service.FamilyService;
+import ua.com.khrypko.family.budget.user.service.UserFacadeImpl;
 import ua.com.khrypko.family.budget.user.service.UserService;
 
-import java.util.Arrays;
 import java.util.Collections;
 
+import static ua.com.khrypko.family.budget.user.UserTestUtil.*;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -27,9 +29,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class UserFacadeImplTest {
 
-    private static final String familyName = "test";
-    private static final String uniqueId = "someUniqueId12345";
-
+    private static final String UNIQUE_URL = "testUniqueUrl";
     private UserFacadeImpl userFacade;
 
     @Mock
@@ -43,43 +43,38 @@ public class UserFacadeImplTest {
         userFacade = new UserFacadeImpl(userService, familyService);
     }
 
-    private FamilyDtoWithUsers createFamilyDTO() {
-        FamilyDtoWithUsers dto = new FamilyDtoWithUsers();
-        dto.setName(familyName);
-        dto.setUniqueId(uniqueId);
-        return dto;
+    @Test
+    public void testCreateNewUserWithoutFamilySuccessful(){
+        when(userService.createUser(any())).thenReturn(getUser());
+        when(userService.updateUser(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(familyService.createFamily(any())).thenReturn(testFamily());
+
+        User user = userFacade.createUser(userRequest());
+
+        verify(userService, times(1)).createUser(any());
+        verify(userService, times(1)).updateUser(any(User.class));
+
+        assertEquals(testFamily(), user.getFamily());
+        assertUserHasSameFieldsAsRequest(userRequest(), user);
     }
 
     @Test
-    @Ignore
-    public void testCreateFamily(){
+    public void testCreateWithSpecifiedAndJoinFamily(){
+        when(userService.createUser(any())).thenReturn(getUser());
+        when(userService.updateUser(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        Family family = testFamily();
+        family.setUniqueUrl(UNIQUE_URL);
+        when(familyService.getFamilyByUniqueUrl(UNIQUE_URL)).thenReturn(family);
 
-        when(userService.getUser(1L)).thenReturn(getUser());
-        when(familyService.createFamily(any())).thenReturn(testFamily());
+        UserRequest userRequest = userRequest();
+        userRequest.setFamilyUrl(UNIQUE_URL);
+        User user = userFacade.createUser(userRequest);
 
-        FamilyDtoWithUsers familyDtoWithUsers = createFamilyDTO();
-        familyDtoWithUsers.setUsers(Collections.singletonList(new UserDTO(1L, null, null, null, 0)));
-        FamilyDto createdFamily = userFacade.createFamily(familyDtoWithUsers);
-
-        Assert.assertNotNull(createdFamily.getId());
-        Assert.assertNotNull(createdFamily.getUniqueId());
-        Assert.assertEquals(familyDtoWithUsers.getName(), createdFamily.getName());
-
-    }
-
-    private Family testFamily() {
-        Family family = new Family();
-        family.setName(familyName);
-        family.setUniqueUrl(uniqueId);
-        family.addUser(getUser());
-
-        return family;
-    }
-
-    private User getUser() {
-         User user = new User();
-         user.setId(1L);
-         return user;
+        verify(userService, times(1)).createUser(any());
+        verify(userService, times(1)).updateUser(any(User.class));
+        verify(familyService, times(1)).getFamilyByUniqueUrl(UNIQUE_URL);
+        assertEquals(family, user.getFamily());
+        assertUserHasSameFieldsAsRequest(userRequest(), user);
     }
 
 }
